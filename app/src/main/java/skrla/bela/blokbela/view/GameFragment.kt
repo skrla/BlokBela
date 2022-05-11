@@ -49,6 +49,7 @@ class GameFragment : Fragment() {
                 belaThey.isChecked = false
             }
         }
+        TODO()
         return binding.root
     }
 
