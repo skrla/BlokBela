@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="gameFragment"
+            type="skrla.bela.blokbela.view.GameFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/game_constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/linear_layout_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rezultat"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_score"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear_layout_result">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/us" />
+
+            <TextView
+                android:id="@+id/text_view_us_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="162" />
+
+            <TextView
+                android:id="@+id/text_view_they_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_weight="1"
+                android:text="162" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="@string/they" />
+        </LinearLayout>
+
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_trump_us"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:minHeight="48dp"
+            android:text="@string/trump"
+            app:layout_constraintBottom_toTopOf="@+id/switch_bela_us"
+            app:layout_constraintEnd_toStartOf="@id/switch_trump_they"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear_layout_score" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_trump_they"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:minHeight="48dp"
+            android:text="@string/trump"
+            app:layout_constraintBottom_toTopOf="@id/switch_bela_they"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/switch_trump_us"
+            app:layout_constraintTop_toBottomOf="@id/linear_layout_score" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_bela_us"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="@string/bela"
+            app:layout_constraintBottom_toTopOf="@id/edit_text_call_us"
+            app:layout_constraintEnd_toStartOf="@+id/switch_bela_they"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/switch_trump_us" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_bela_they"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="@string/bela"
+            app:layout_constraintBottom_toTopOf="@id/edit_text_call_they"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/switch_bela_us"
+            app:layout_constraintTop_toBottomOf="@+id/switch_trump_they" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edit_text_call_us"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/call"
+            android:inputType="number"
+            android:minHeight="48dp"
+            app:layout_constraintBottom_toTopOf="@+id/edit_text_field_us"
+            app:layout_constraintEnd_toStartOf="@id/edit_text_call_they"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/switch_bela_us" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edit_text_call_they"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/call"
+            android:inputType="number"
+            android:minHeight="48dp"
+            app:layout_constraintBottom_toTopOf="@id/edit_text_field_they"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/edit_text_call_us"
+            app:layout_constraintTop_toBottomOf="@+id/switch_bela_they" />
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_text_field_us"
+            tools:layout_editor_absoluteX="147dp"
+            tools:layout_editor_absoluteY="543dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edit_text_field_us"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="81"
+            android:inputType="number"
+            app:layout_constraintBottom_toTopOf="@id/btn_add"
+            app:layout_constraintEnd_toStartOf="@id/edit_text_field_they"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_text_call_us"
+            tools:ignore="SpeakableTextPresentCheck"
+            tools:layout_editor_absoluteX="41dp"
+            tools:layout_editor_absoluteY="482dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_point_us"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="number"
+                android:maxLines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edit_text_field_they"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="81"
+            android:inputType="number"
+            app:layout_constraintBottom_toTopOf="@id/btn_add"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/edit_text_field_us"
+            app:layout_constraintTop_toBottomOf="@id/edit_text_call_they"
+            tools:ignore="SpeakableTextPresentCheck"
+            tools:layout_editor_absoluteX="237dp"
+            tools:layout_editor_absoluteY="482dp">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_point_they"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="number"
+                android:maxLines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

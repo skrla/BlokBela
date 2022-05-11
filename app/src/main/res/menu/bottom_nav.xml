@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/gameFragment"
+        android:title="@string/game"
+        android:icon="@drawable/ic_game"/>
+    <item
+        android:id="@+id/scoreFragment"
+        android:title="@string/score"
+        android:icon="@drawable/ic_score"/>
+
+</menu>
