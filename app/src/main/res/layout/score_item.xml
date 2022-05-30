@@ -5,37 +5,44 @@
 
     <data>
 
+        <variable
+            name="score"
+            type="skrla.bela.blokbela.data.model.Score" />
+
+        <variable
+            name="scoreViewModel"
+            type="skrla.bela.blokbela.viewmodel.ScoreViewModel" />
     </data>
 
     <LinearLayout
         android:id="@+id/score_linear_item"
-        android:descendantFocusability="blocksDescendants"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:descendantFocusability="blocksDescendants">
 
         <TextView
-            android:gravity="center"
             android:id="@+id/points_us"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_width="0dp"
+            android:gravity="center"
             android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/points_they"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/game_points_us" />
+            app:layout_constraintTop_toBottomOf="@id/points_us" />
 
         <TextView
-            android:gravity="center"
             android:id="@+id/points_they"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_width="0dp"
+            android:gravity="center"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@+id/points_us"
-            app:layout_constraintTop_toBottomOf="@id/game_points_they" />
+            app:layout_constraintTop_toBottomOf="@id/points_they" />
 
     </LinearLayout>
 </layout>
