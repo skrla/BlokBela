@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import skrla.bela.blokbela.R
 import skrla.bela.blokbela.databinding.FragmentStartingBinding
 import skrla.bela.blokbela.viewmodel.ScoreViewModel
 
-
+@AndroidEntryPoint
 class StartingFragment : Fragment() {
     private var _binding: FragmentStartingBinding? = null
     private val binding get() = _binding!!

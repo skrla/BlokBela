@@ -15,11 +15,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideDatabase(app: Application): GameDatabase {
         return Room.databaseBuilder(
-            app.applicationContext,
+            app,
             GameDatabase::class.java,
             "game_data"
         )
@@ -27,8 +27,8 @@ object AppModule {
 
     }
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideGameRepository(gameDatabase: GameDatabase): GameRepository {
         return GameRepositoryImpl(gameDatabase.gameDao)
     }

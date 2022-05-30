@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import skrla.bela.blokbela.data.model.Round
 import skrla.bela.blokbela.databinding.FragmentGameBinding
 import skrla.bela.blokbela.viewmodel.ScoreViewModel
 
@@ -24,6 +25,7 @@ class GameFragment : Fragment() {
         val trumpUs = binding.switchTrumpUs
         val belaUs = binding.switchBelaUs
         val belaThey = binding.switchBelaThey
+        val btn = binding.btnAdd
         trumpThey.setOnClickListener {
             if (trumpThey.isPressed && trumpUs.isChecked) {
                 trumpUs.isChecked = false
@@ -49,7 +51,11 @@ class GameFragment : Fragment() {
                 belaThey.isChecked = false
             }
         }
-        TODO()
+        btn.setOnClickListener {
+            val round = Round( 0)
+            scoreViewModel.insertRound(round)
+        }
+        
         return binding.root
     }
 
