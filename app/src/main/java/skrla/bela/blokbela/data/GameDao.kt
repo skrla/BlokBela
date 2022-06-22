@@ -1,5 +1,6 @@
 package skrla.bela.blokbela.data
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -9,6 +10,9 @@ import skrla.bela.blokbela.data.model.Score
 
 @Dao
 interface GameDao {
+
+    @Query("SELECT * FROM round order by roundId DESC limit 1")
+    fun getCurrentRound(): LiveData<Round>
 
     @Query("SELECT * FROM score")
     fun getScore(): Flow<List<Score>>
