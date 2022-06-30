@@ -9,4 +9,6 @@
     <string name="add">Dodaj bodove</string>
     <string name="game">Game</string>
     <string name="score">Score</string>
+    <string name="rezultat">Rezultat</string>
+    <string name="bodovi">Bodovi</string>
 </resources>
