@@ -1,12 +1,12 @@
 package skrla.bela.blokbela.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
@@ -25,71 +25,89 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentGameBinding.inflate(inflater, container, false)
-        scoreViewModel.round.observe(viewLifecycleOwner) {
-            if (it == null) {
-                val r = Round(1)
-                scoreViewModel.addRound(r)
-            }
+        binding.let {
+            it.lifecycleOwner = this
+            it.scoreViewModel = scoreViewModel
         }
-        val trumpThey = binding.switchTrumpThey
-        val trumpUs = binding.switchTrumpUs
-        val belaUs = binding.switchBelaUs
-        val belaThey = binding.switchBelaThey
-        val btn = binding.btnAdd
-        val pointUs = binding.editTextPointUs
-        val pointThem = binding.editTextPointThey
-
-        pointUs.doAfterTextChanged { it ->
-            if(!it.toString().equals("") && pointUs.hasFocus()) {
-                pointThem.setText((162 - it.toString().toInt()).toString())
+        scoreViewModel.let { itModel ->
+            itModel.round.observe(viewLifecycleOwner) {
+                if (it == null) {
+                    val r = Round(1)
+                    scoreViewModel.addRound(r)
+                }
             }
-            if(it.toString().equals("") && pointUs.hasFocus()) {
-                pointThem.setText("162")
+            itModel.score.observe(viewLifecycleOwner) {
+                if (it != null) {
+                    scoreViewModel.roundPoints(it)
+                    scoreViewModel.score.removeObservers(viewLifecycleOwner)
+                }
             }
         }
 
-        pointThem.doAfterTextChanged { it ->
-            if(!it.toString().equals("") && pointThem.hasFocus()) {
-                pointUs.setText((162 - it.toString().toInt()).toString())
-            }
-            if(it.toString().equals("") && pointThem.hasFocus()) {
-                pointUs.setText("162")
-            }
-        }
 
-        trumpThey.setOnClickListener {
-            if (trumpThey.isPressed && trumpUs.isChecked) {
-                trumpUs.isChecked = false
-            } else if (trumpThey.isPressed && !(trumpThey.isChecked)) {
-                trumpUs.isChecked = true
-            }
-        }
-        trumpUs.setOnClickListener {
-            if (trumpUs.isPressed && trumpThey.isChecked) {
-                trumpThey.isChecked = false
-            } else if (trumpUs.isPressed && !(trumpUs.isChecked)) {
-                trumpThey.isChecked = true
-            }
-        }
-
-        belaThey.setOnClickListener {
-            if (belaThey.isPressed && belaUs.isChecked) {
-                belaUs.isChecked = false
-            }
-        }
-        belaUs.setOnClickListener {
-            if (belaUs.isPressed && belaThey.isChecked) {
-                belaThey.isChecked = false
-            }
-        }
-        btn.setOnClickListener {
-            validate(pointUs, pointThem, trumpUs, belaUs, belaThey)
-            setValues(pointUs, pointThem, belaUs, belaThey)
-        }
 
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        val pointUs = binding.editTextPointUs
+        val pointThem = binding.editTextPointThey
+        val trumpUs = binding.switchTrumpUs
+        val trumpThey = binding.switchTrumpThey
+        val belaUs = binding.switchBelaUs
+        val belaThey = binding.switchBelaThey
+        val btn = binding.btnAdd
+
+
+        pointUs.doAfterTextChanged {
+            autocomplete(pointUs, pointThem)
+        }
+
+        pointThem.doAfterTextChanged {
+            autocomplete(pointThem, pointUs)
+        }
+
+        trumpUs.setOnCheckedChangeListener { _, isChecked ->
+            trumpThey.isChecked = !isChecked
+        }
+
+        trumpThey.setOnCheckedChangeListener { _, isChecked ->
+            trumpUs.isChecked = !isChecked
+        }
+
+        belaUs.setOnClickListener {
+            bela(belaUs, belaThey)
+        }
+
+        belaThey.setOnClickListener {
+            bela(belaThey, belaUs)
+        }
+
+        btn.setOnClickListener {
+            validate(pointUs, pointThem, trumpUs, belaUs, belaThey)
+            setValues(pointUs, pointThem, belaUs, belaThey)
+        }
+    }
+
+    private fun bela(bela1: SwitchMaterial, bela2: SwitchMaterial) {
+        if (bela1.isPressed && bela2.isChecked) {
+            bela2.isChecked = false
+        }
+    }
+
+    private fun autocomplete(
+        text1: TextInputEditText,
+        text2: TextInputEditText,
+    ) {
+        if (text1.hasFocus()) {
+            if (text1.text.toString() == "") {
+                text2.setText("162")
+            } else {
+                text2.setText((162 - text1.text.toString().toInt()).toString())
+            }
+        }
+    }
 
     private fun validate(
         pointUs: TextInputEditText,
@@ -99,7 +117,7 @@ class GameFragment : Fragment() {
         belaThey: SwitchMaterial
     ) {
         val numPointUs = if (pointUs.text.toString() != "") pointUs.text.toString() else "0"
-        val numPointThem = if(pointThem.text.toString() != "") pointThem.text.toString() else "0"
+        val numPointThem = if (pointThem.text.toString() != "") pointThem.text.toString() else "0"
         val callUs = if (binding.editTextCallUs.text.toString() != ""
         ) binding.editTextCallUs.text.toString() else "0"
         val callThem = if (binding.editTextCallThey.text.toString() != ""
@@ -110,7 +128,7 @@ class GameFragment : Fragment() {
             callUs.toInt(),
             callThem.toInt()
         )
-        if(!mistake.equals("")) {
+        if (mistake != "") {
             Toast.makeText(context, mistake, Toast.LENGTH_LONG).show()
             return
         }

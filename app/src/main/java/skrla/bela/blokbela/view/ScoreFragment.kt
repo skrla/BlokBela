@@ -1,17 +1,11 @@
 package skrla.bela.blokbela.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.coroutineScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import skrla.bela.blokbela.databinding.FragmentScoreBinding
 import skrla.bela.blokbela.view.adapters.ScoreTwoPlayersAdapter
 import skrla.bela.blokbela.viewmodel.ScoreViewModel
@@ -26,10 +20,11 @@ class ScoreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentScoreBinding.inflate(inflater, container, false)
+        _binding = FragmentScoreBinding.inflate(inflater)
         val adapter = ScoreTwoPlayersAdapter()
         binding.let {
-            it.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            it.lifecycleOwner = this
+            it.scoreViewModel = scoreViewModel
             it.recyclerView.adapter = adapter
         }
 

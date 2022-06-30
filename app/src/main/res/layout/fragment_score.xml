@@ -5,10 +5,6 @@
     <data>
 
         <variable
-            name="score"
-            type="skrla.bela.blokbela.data.model.Score" />
-
-        <variable
             name="scoreViewModel"
             type="skrla.bela.blokbela.viewmodel.ScoreViewModel" />
     </data>
@@ -24,12 +20,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

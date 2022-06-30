@@ -4,13 +4,6 @@
 
     <data>
 
-        <variable
-            name="starting"
-            type="skrla.bela.blokbela.view.StartingFragment" />
-
-        <variable
-            name="main"
-            type="skrla.bela.blokbela.view.MainActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
