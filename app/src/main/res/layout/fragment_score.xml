@@ -9,18 +9,44 @@
             type="skrla.bela.blokbela.viewmodel.ScoreViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TableLayout
         android:id="@+id/score_constraint_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
 
+        <TableRow
+            android:layout_margin="5dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_weight="1"
+                android:width="0dp"
+                android:textAlignment="center"
+                android:text="@string/redniBroj"
+                android:textSize="18sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_weight="5"
+                android:width="0dp"
+                android:textAlignment="center"
+                android:text="@string/bodovi"
+                android:textSize="20sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_weight="5"
+                android:width="0dp"
+                android:textAlignment="center"
+                android:text="@string/bodovi"
+                android:textSize="20sp" />
+        </TableRow>
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:scoreTwoTeams="@{scoreViewModel.score}" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </TableLayout>
 </layout>
