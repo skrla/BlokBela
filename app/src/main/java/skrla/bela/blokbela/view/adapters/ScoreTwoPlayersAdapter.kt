@@ -25,8 +25,7 @@ class ScoreTwoPlayersAdapter : ListAdapter<Score, ScoreTwoPlayersAdapter.ScoreVi
         RecyclerView.ViewHolder(binding.root) {
         fun bind(score: Score) {
             binding.score = score
-            binding.pointsUs.text = score.team1.toString()
-            binding.pointsThey.text = score.team2.toString()
+            binding.order.text = score.scoreId.toString() + "."
             binding.executePendingBindings()
         }
 
@@ -34,7 +33,7 @@ class ScoreTwoPlayersAdapter : ListAdapter<Score, ScoreTwoPlayersAdapter.ScoreVi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScoreViewHolder {
         return ScoreViewHolder(
-            ScoreItemBinding.inflate(LayoutInflater.from(parent.context))
+            ScoreItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 

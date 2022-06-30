@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import skrla.bela.blokbela.databinding.FragmentScoreBinding
 import skrla.bela.blokbela.view.adapters.ScoreTwoPlayersAdapter
 import skrla.bela.blokbela.viewmodel.ScoreViewModel
@@ -20,16 +21,11 @@ class ScoreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentScoreBinding.inflate(inflater)
-        val adapter = ScoreTwoPlayersAdapter()
+        _binding = FragmentScoreBinding.inflate(inflater, container, false)
         binding.let {
             it.lifecycleOwner = this
             it.scoreViewModel = scoreViewModel
-            it.recyclerView.adapter = adapter
-        }
-
-        scoreViewModel.score.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+            it.recyclerView.adapter = ScoreTwoPlayersAdapter()
         }
 
         return binding.root
