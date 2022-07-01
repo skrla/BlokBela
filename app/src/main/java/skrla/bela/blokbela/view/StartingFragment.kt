@@ -30,6 +30,7 @@ class StartingFragment : Fragment() {
         val btnNewGame = binding.btnNewGame
         val btnOldGame = binding.btnOldGame
         btnNewGame.setOnClickListener {
+            scoreViewModel.deleteData()
             findNavController().navigate(R.id.action_startingFragment_to_gameFragment)
         }
         btnOldGame.setOnClickListener {

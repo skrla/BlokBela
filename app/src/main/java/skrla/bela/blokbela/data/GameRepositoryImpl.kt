@@ -23,4 +23,20 @@ class GameRepositoryImpl(
     override suspend fun insertRound(round: Round) {
         gameDao.insertRound(round)
     }
+
+    override suspend fun deletePlayers() {
+        gameDao.deletePlayers()
+    }
+
+    override suspend fun deleteTeams() {
+        gameDao.deleteTeams()
+    }
+
+    override suspend fun deleteScores() {
+        gameDao.deleteScores()
+    }
+
+    override suspend fun deleteRounds() {
+        gameDao.deleteRounds()
+    }
 }

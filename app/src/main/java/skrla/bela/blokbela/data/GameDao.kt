@@ -2,6 +2,7 @@ package skrla.bela.blokbela.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
@@ -22,4 +23,16 @@ interface GameDao {
 
     @Insert
     suspend fun insertRound(round: Round)
+
+    @Query("DELETE FROM player")
+    suspend fun deletePlayers()
+
+    @Query("DELETE FROM team")
+    suspend fun deleteTeams()
+
+    @Query("DELETE FROM score")
+    suspend fun deleteScores()
+
+    @Query("DELETE FROM round")
+    suspend fun deleteRounds()
 }
