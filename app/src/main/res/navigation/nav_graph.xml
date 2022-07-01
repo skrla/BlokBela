@@ -11,7 +11,7 @@
         android:label="fragment_score"
         tools:layout="@layout/fragment_score">
         <action
-            android:id="@+id/action_scoreFragment_to_gameFragment"
+            android:id="@+id/action_scoreFragment_to_gameFragment2"
             app:destination="@id/gameFragment" />
     </fragment>
     <fragment
@@ -20,8 +20,11 @@
         android:label="fragment_game"
         tools:layout="@layout/fragment_game">
         <action
-            android:id="@+id/action_gameFragment_to_scoreFragment"
+            android:id="@+id/action_gameFragment_to_scoreFragment2"
             app:destination="@id/scoreFragment" />
+        <action
+            android:id="@+id/action_gameFragment_to_dealerFragment3"
+            app:destination="@id/dealerFragment" />
     </fragment>
     <fragment
         android:id="@+id/startingFragment"
@@ -30,6 +33,15 @@
         tools:layout="@layout/fragment_starting">
         <action
             android:id="@+id/action_startingFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dealerFragment"
+        android:name="skrla.bela.blokbela.DealerFragment"
+        android:label="fragment_dealer"
+        tools:layout="@layout/fragment_dealer" >
+        <action
+            android:id="@+id/action_dealerFragment_to_gameFragment3"
             app:destination="@id/gameFragment" />
     </fragment>
 </navigation>
