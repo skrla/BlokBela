@@ -10,7 +10,7 @@ data class Team(
     @PrimaryKey(autoGenerate = true)
     val teamId: Int = 0,
     @ColumnInfo(name = "name")
-    val name: String,
+    var name: String,
     @NonNull
     @ColumnInfo(name = "roundId")
     val currentRound: Int

@@ -10,7 +10,7 @@ data class Player(
     @PrimaryKey(autoGenerate = true)
     val playerId: Int = 0,
     @NonNull @ColumnInfo(name = "name")
-    val name: String,
+    var name: String,
     @NonNull
     @ColumnInfo(name = "teamId")
     val teamId: Int
