@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import skrla.bela.blokbela.databinding.FragmentScoreBinding
 import skrla.bela.blokbela.view.adapters.ScoreTwoPlayersAdapter
 import skrla.bela.blokbela.viewmodel.ScoreViewModel

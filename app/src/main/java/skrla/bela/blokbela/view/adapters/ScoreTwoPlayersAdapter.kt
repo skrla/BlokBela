@@ -23,9 +23,9 @@ class ScoreTwoPlayersAdapter : ListAdapter<Score, ScoreTwoPlayersAdapter.ScoreVi
 
     class ScoreViewHolder(private var binding: ScoreItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(score: Score) {
+        fun bind(score: Score, position: Int) {
             binding.score = score
-            binding.order.text = score.scoreId.toString() + "."
+            binding.order.text = "${position+1}."
             binding.executePendingBindings()
         }
 
@@ -39,6 +39,6 @@ class ScoreTwoPlayersAdapter : ListAdapter<Score, ScoreTwoPlayersAdapter.ScoreVi
 
     override fun onBindViewHolder(holder: ScoreViewHolder, position: Int) {
         val roundId = getItem(position)
-        holder.bind(roundId)
+        holder.bind(roundId, position)
     }
 }
