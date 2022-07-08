@@ -11,6 +11,8 @@ data class Team(
     val teamId: Int = 0,
     @ColumnInfo(name = "name")
     var name: String,
+    @ColumnInfo(name = "wins")
+    var wins: Int = 0,
     @NonNull
     @ColumnInfo(name = "roundId")
     val currentRound: Int

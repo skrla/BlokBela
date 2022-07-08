@@ -11,6 +11,8 @@ data class Player(
     val playerId: Int = 0,
     @NonNull @ColumnInfo(name = "name")
     var name: String,
+    @ColumnInfo(name = "wins")
+    var wins: Int = 0,
     @NonNull
     @ColumnInfo(name = "teamId")
     val teamId: Int
