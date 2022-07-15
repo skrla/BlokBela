@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import skrla.bela.blokbela.databinding.FragmentScoreBinding
-import skrla.bela.blokbela.view.adapters.ScoreTwoPlayersAdapter
+import skrla.bela.blokbela.view.adapters.ScoreTwoTeamsAdapter
 import skrla.bela.blokbela.viewmodel.ScoreViewModel
 
 class ScoreFragment : Fragment() {
@@ -24,7 +24,7 @@ class ScoreFragment : Fragment() {
         binding.let {
             it.lifecycleOwner = this
             it.scoreViewModel = scoreViewModel
-            it.recyclerView.adapter = ScoreTwoPlayersAdapter()
+            it.recyclerView.adapter = ScoreTwoTeamsAdapter()
         }
 
         return binding.root

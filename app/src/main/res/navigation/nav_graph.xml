@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/dealerFragment"
-        android:name="skrla.bela.blokbela.DealerFragment"
+        android:name="skrla.bela.blokbela.view.DealerFragment"
         android:label="fragment_dealer"
         tools:layout="@layout/fragment_dealer" >
         <action

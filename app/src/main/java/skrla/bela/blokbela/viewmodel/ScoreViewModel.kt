@@ -4,8 +4,11 @@ import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import skrla.bela.blokbela.data.GameRepository
+import skrla.bela.blokbela.data.model.Player
 import skrla.bela.blokbela.data.model.Round
 import skrla.bela.blokbela.data.model.Score
+import skrla.bela.blokbela.data.model.Team
+import skrla.bela.blokbela.util.POSSIBLE_CALL
 import javax.inject.Inject
 
 @HiltViewModel
@@ -14,41 +17,9 @@ class ScoreViewModel @Inject constructor(private val repository: GameRepository)
     var round: LiveData<Round> = repository.getCurrentRound()
     val score = repository.getScore().asLiveData()
     val scoreRound = mutableListOf<Score>()
+    val players = repository.getPlayers().asLiveData()
     private val gamePoints = 162
-    private val possibleCall = listOf(
-        20,
-        40,
-        50,
-        60,
-        70,
-        80,
-        90,
-        100,
-        110,
-        120,
-        140,
-        150,
-        160,
-        170,
-        180,
-        190,
-        200,
-        210,
-        220,
-        240,
-        250,
-        270,
-        280,
-        290,
-        300,
-        310,
-        320,
-        340,
-        350,
-        370,
-        390,
-        400
-    )
+
     private var callerMinPoints = 81
     private var us = 0
     private var them = 0
@@ -66,6 +37,7 @@ class ScoreViewModel @Inject constructor(private val repository: GameRepository)
             repository.insertRound(round)
         }
     }
+
 
     fun insertScore(caller: Boolean, belaUs: Boolean, belaThem: Boolean) {
         if (belaUs) {
@@ -111,16 +83,16 @@ class ScoreViewModel @Inject constructor(private val repository: GameRepository)
         if (pointUs + pointsThem != 162) {
             return "Nisu isravno unešeni bodovi"
         }
-        if (callUs !in possibleCall && callUs != 0) {
+        if (callUs !in POSSIBLE_CALL && callUs != 0) {
             return "Zvanje tima MI nije ispravno"
         }
-        if (callThem !in possibleCall && callThem != 0) {
+        if (callThem !in POSSIBLE_CALL && callThem != 0) {
             return "Zvanje tima VI nije ispravno"
         }
-        if (callUs in possibleCall && callThem != 0) {
+        if (callUs in POSSIBLE_CALL && callThem != 0) {
             return "Ne mogu oba tima imati zvanje"
         }
-        if (callThem in possibleCall && callUs != 0) {
+        if (callThem in POSSIBLE_CALL && callUs != 0) {
             return "Ne mogu oba tima imati zvanje"
         }
         us = pointUs
@@ -155,6 +127,27 @@ class ScoreViewModel @Inject constructor(private val repository: GameRepository)
             _roundScoreThey.value = 0
             scoreRound.clear()
             addRound(r)
+        }
+    }
+
+    fun addTeams() {
+        viewModelScope.launch {
+            for (i in 1..2) {
+                val name = if (i%2 == 1) "Mi" else "Vi"
+                val team = Team(0,name,0,0)
+                repository.insertTeam(team)
+            }
+        }
+    }
+
+    fun addPlayers(x: Int) {
+        viewModelScope.launch {
+            for (i in 0..x) {
+                val name = "Igrac$i"
+                val team = x % 2
+                val player = Player(0, name, 0, team)
+                repository.insertPlayer(player)
+            }
         }
     }
 

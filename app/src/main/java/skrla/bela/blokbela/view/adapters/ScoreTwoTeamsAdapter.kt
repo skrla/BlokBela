@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import skrla.bela.blokbela.data.model.Score
 import skrla.bela.blokbela.databinding.ScoreItemBinding
 
-class ScoreTwoPlayersAdapter : ListAdapter<Score, ScoreTwoPlayersAdapter.ScoreViewHolder>(DiffCallback) {
+class ScoreTwoTeamsAdapter : ListAdapter<Score, ScoreTwoTeamsAdapter.ScoreViewHolder>(DiffCallback) {
 
     companion object DiffCallback : DiffUtil.ItemCallback<Score>() {
         override fun areItemsTheSame(oldItem: Score, newItem: Score): Boolean {

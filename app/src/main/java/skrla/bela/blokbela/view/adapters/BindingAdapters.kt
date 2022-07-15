@@ -3,11 +3,12 @@ package skrla.bela.blokbela.view.adapters
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import skrla.bela.blokbela.data.model.Player
 import skrla.bela.blokbela.data.model.Score
 
 @BindingAdapter("scoreTwoTeams")
 fun bindScoreTwoTeams(recyclerView: RecyclerView, data: List<Score>) {
-    val adapter = recyclerView.adapter as ScoreTwoPlayersAdapter
+    val adapter = recyclerView.adapter as ScoreTwoTeamsAdapter
     adapter.submitList(data)
 }
 
@@ -19,4 +20,10 @@ fun TextView.scoreNumberTeam1(score: Score) {
 @BindingAdapter("scoreTeam2")
 fun TextView.scoreNumberTeam2(score: Score) {
     text = score.team2.toString()
+}
+
+@BindingAdapter("dealersTwoTeams")
+fun bindDealersTwoTeams(recyclerView: RecyclerView, data: List<Player>) {
+    val adapter = recyclerView.adapter as DealersTwoTeamsAdapter
+    adapter.submitList(data)
 }
