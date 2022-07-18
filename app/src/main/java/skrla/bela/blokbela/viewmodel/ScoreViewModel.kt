@@ -18,6 +18,7 @@ class ScoreViewModel @Inject constructor(private val repository: GameRepository)
     val score = repository.getScore().asLiveData()
     val scoreRound = mutableListOf<Score>()
     val players = repository.getPlayers().asLiveData()
+    val currentPlayers = mutableListOf<Player>()
     private val gamePoints = 162
 
     private var callerMinPoints = 81
@@ -100,6 +101,12 @@ class ScoreViewModel @Inject constructor(private val repository: GameRepository)
         this.callUs = callUs
         this.callThem = callThem
         return ""
+    }
+
+    fun getPlayers(playersList: List<Player>) {
+        playersList.forEach {
+            currentPlayers.add(it)
+        }
     }
 
     fun roundPoints(allRoundScore: List<Score>) {

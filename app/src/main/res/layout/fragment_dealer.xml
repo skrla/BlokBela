@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="dealersFragment"
-            type="skrla.bela.blokbela.view.DealerFragment" />
+            name="scoreViewModel"
+            type="skrla.bela.blokbela.viewmodel.ScoreViewModel" />
 
     </data>
 
@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:dealersTwoTeams="@{dealersFragment.players}"/>
+            app:dealersTwoTeams="@{scoreViewModel.currentPlayers}"/>
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

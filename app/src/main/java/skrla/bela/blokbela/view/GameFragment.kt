@@ -42,6 +42,12 @@ class GameFragment : Fragment() {
                     scoreViewModel.score.removeObservers(viewLifecycleOwner)
                 }
             }
+            itModel.players.observe(viewLifecycleOwner) {
+                if (it != null) {
+                    scoreViewModel.getPlayers(it)
+                    scoreViewModel.players.removeObservers(viewLifecycleOwner)
+                }
+            }
         }
 
 
