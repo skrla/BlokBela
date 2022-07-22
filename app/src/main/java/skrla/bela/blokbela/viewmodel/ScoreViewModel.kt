@@ -2,6 +2,7 @@ package skrla.bela.blokbela.viewmodel
 
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import skrla.bela.blokbela.data.GameRepository
 import skrla.bela.blokbela.data.model.Player
@@ -17,8 +18,8 @@ class ScoreViewModel @Inject constructor(private val repository: GameRepository)
     var round: LiveData<Round> = repository.getCurrentRound()
     val score = repository.getScore().asLiveData()
     val scoreRound = mutableListOf<Score>()
-    val players = repository.getPlayers().asLiveData()
-    val currentPlayers = mutableListOf<Player>()
+    val players = mutableListOf<Player>()
+    val teamWithPlayer = repository.getTeamWithPlayers()
     private val gamePoints = 162
 
     private var callerMinPoints = 81
@@ -47,13 +48,13 @@ class ScoreViewModel @Inject constructor(private val repository: GameRepository)
         if (belaThem) {
             callThem += 20
         }
-        if(callUs > 0) {
+        if (callUs > 0) {
             us += callUs
-            callerMinPoints += callUs/2
+            callerMinPoints += callUs / 2
         }
-        if(callThem > 0) {
+        if (callThem > 0) {
             them += callThem
-            callerMinPoints += callThem/2
+            callerMinPoints += callThem / 2
         }
         if (caller && us < callerMinPoints) {
             us = 0
@@ -103,12 +104,6 @@ class ScoreViewModel @Inject constructor(private val repository: GameRepository)
         return ""
     }
 
-    fun getPlayers(playersList: List<Player>) {
-        playersList.forEach {
-            currentPlayers.add(it)
-        }
-    }
-
     fun roundPoints(allRoundScore: List<Score>) {
         var us = 0
         var they = 0
@@ -126,9 +121,9 @@ class ScoreViewModel @Inject constructor(private val repository: GameRepository)
     private fun checkScore() {
         if (roundScoreUs.value!! > 1001 || roundScoreThey.value!! > 1001) {
             val r = if (roundScoreUs.value!! > roundScoreThey.value!!) {
-                Round(round.value!!.roundId + 1, round.value!!.winTeam1+1, round.value!!.winTeam2)
+                Round(round.value!!.roundId + 1, round.value!!.winTeam1 + 1, round.value!!.winTeam2)
             } else {
-                Round(round.value!!.roundId + 1, round.value!!.winTeam1, round.value!!.winTeam2+1)
+                Round(round.value!!.roundId + 1, round.value!!.winTeam1, round.value!!.winTeam2 + 1)
             }
             _roundScoreUs.value = 0
             _roundScoreThey.value = 0
@@ -138,27 +133,30 @@ class ScoreViewModel @Inject constructor(private val repository: GameRepository)
     }
 
     fun addTeams() {
-        viewModelScope.launch {
-            for (i in 1..2) {
-                val name = if (i%2 == 1) "Mi" else "Vi"
-                val team = Team(0,name,0,0)
-                repository.insertTeam(team)
+        for (i in 1..2) {
+            val name = if (i % 2 == 1) "Mi" else "Vi"
+            val newTeam = Team(i, name, 0, 0)
+            viewModelScope.launch {
+                repository.insertTeam(newTeam)
             }
+
         }
     }
 
-    fun addPlayers(x: Int) {
-        viewModelScope.launch {
-            for (i in 0..x) {
-                val name = "Igrac$i"
-                val team = x % 2
-                val player = Player(0, name, 0, team)
+    fun addPlayers() {
+        for (i in 0..3) {
+            val name = "Igrac${i+1}"
+            val targetTeam = if (i % 2 == 0) 1 else 2
+            val dealer = i == 0
+            val player = Player(i, name, 0, targetTeam, dealer)
+            viewModelScope.launch {
                 repository.insertPlayer(player)
             }
+            players.add(player)
         }
     }
 
-    fun deleteData(){
+    fun deleteData() {
         viewModelScope.launch {
             repository.let {
                 it.deletePlayers()

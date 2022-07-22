@@ -2,24 +2,22 @@ package skrla.bela.blokbela.view.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import skrla.bela.blokbela.data.model.Player
+import skrla.bela.blokbela.data.model.relations.TeamWithPlayer
 import skrla.bela.blokbela.databinding.DealersBinding
 
-class DealersTwoTeamsAdapter  : ListAdapter<Player, DealersTwoTeamsAdapter.DealersViewHolder>(DiffCallback) {
+class DealersTwoTeamsAdapter : ListAdapter<TeamWithPlayer, DealersTwoTeamsAdapter.DealersViewHolder>(DiffCallback) {
 
-    private var onItemClickListener: ((Player) -> Unit)? = null
-    private val differ = AsyncListDiffer(this, DiffCallback)
+    private var onItemClickListener: ((TeamWithPlayer) -> Unit)? = null
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Player>() {
-        override fun areItemsTheSame(oldItem: Player, newItem: Player): Boolean {
-            return oldItem.playerId == newItem.playerId
+    companion object DiffCallback : DiffUtil.ItemCallback<TeamWithPlayer>() {
+        override fun areItemsTheSame(oldItem: TeamWithPlayer, newItem: TeamWithPlayer): Boolean {
+            return oldItem.team == newItem.team
         }
 
-        override fun areContentsTheSame(oldItem: Player, newItem: Player): Boolean {
+        override fun areContentsTheSame(oldItem: TeamWithPlayer, newItem: TeamWithPlayer): Boolean {
             return areItemsTheSame(oldItem, newItem)
         }
 
@@ -27,14 +25,18 @@ class DealersTwoTeamsAdapter  : ListAdapter<Player, DealersTwoTeamsAdapter.Deale
 
     inner class DealersViewHolder(private var binding: DealersBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(player: Player) {
+        fun bind(teamWithPlayer: TeamWithPlayer) {
             binding.let {
-                it.player = player
+                it.teamNameTxt.text = teamWithPlayer.team.name
+                it.player1TeamTxt.text = teamWithPlayer.player.first().name
+                it.player2TeamTxt.text = teamWithPlayer.player.last().name
+                it.checkBoxPlayer1.isChecked = teamWithPlayer.player.first().dealer
+                it.checkBoxPlayer2.isChecked = teamWithPlayer.player.last().dealer
                 it.executePendingBindings()
             }
             binding.root.setOnClickListener {
                 onItemClickListener?.let {
-                    it(player)
+                    it(teamWithPlayer)
                 }
             }
         }
@@ -51,10 +53,6 @@ class DealersTwoTeamsAdapter  : ListAdapter<Player, DealersTwoTeamsAdapter.Deale
     override fun onBindViewHolder(holder: DealersViewHolder, position: Int) {
         val dealerId = getItem(position)
         holder.bind(dealerId)
-    }
-
-    fun setOnItemClickListener(listener: (Player) -> Unit) {
-        onItemClickListener = listener
     }
 
     fun moveItem(from: Int, to: Int) {

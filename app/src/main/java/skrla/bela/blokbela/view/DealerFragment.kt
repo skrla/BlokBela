@@ -6,9 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import skrla.bela.blokbela.data.model.Player
 import skrla.bela.blokbela.databinding.FragmentDealerBinding
 import skrla.bela.blokbela.view.adapters.DealersTwoTeamsAdapter
@@ -69,11 +73,26 @@ class DealerFragment : Fragment() {
     ): View {
         _binding = FragmentDealerBinding.inflate(inflater, container, false)
 
+        val dealersTwoTeamsAdapter = DealersTwoTeamsAdapter()
+
+        lifecycleScope.launch {
+            scoreViewModel.teamWithPlayer.collect {
+                if (!it.isEmpty()) {
+                    dealersTwoTeamsAdapter.submitList(it)
+                } else {
+                    scoreViewModel.addTeams()
+                    scoreViewModel.addPlayers()
+                }
+            }
+        }
+
         binding.let {
             it.lifecycleOwner = this
             it.scoreViewModel = scoreViewModel
-            it.twoTeamsDealrsRec.adapter = DealersTwoTeamsAdapter()
+            it.twoTeamsDealrsRec.adapter = dealersTwoTeamsAdapter
         }
+
+
         itemTouchHelper.attachToRecyclerView(binding.twoTeamsDealrsRec)
 
         return binding.root

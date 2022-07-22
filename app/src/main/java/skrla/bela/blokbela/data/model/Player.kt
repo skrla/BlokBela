@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Player(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     val playerId: Int = 0,
     @NonNull @ColumnInfo(name = "name")
     var name: String,
@@ -15,5 +15,7 @@ data class Player(
     var wins: Int = 0,
     @NonNull
     @ColumnInfo(name = "teamId")
-    val teamId: Int
+    val teamId: Int,
+    @ColumnInfo(name = "dealer")
+    val dealer: Boolean = false
 )

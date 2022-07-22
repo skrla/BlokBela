@@ -8,8 +8,11 @@ import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import skrla.bela.blokbela.data.model.Round
 import skrla.bela.blokbela.databinding.FragmentGameBinding
 import skrla.bela.blokbela.viewmodel.ScoreViewModel
@@ -40,12 +43,6 @@ class GameFragment : Fragment() {
                 if (it != null) {
                     scoreViewModel.roundPoints(it)
                     scoreViewModel.score.removeObservers(viewLifecycleOwner)
-                }
-            }
-            itModel.players.observe(viewLifecycleOwner) {
-                if (it != null) {
-                    scoreViewModel.getPlayers(it)
-                    scoreViewModel.players.removeObservers(viewLifecycleOwner)
                 }
             }
         }

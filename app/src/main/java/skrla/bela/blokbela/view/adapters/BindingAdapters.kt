@@ -21,9 +21,10 @@ fun TextView.scoreNumberTeam1(score: Score) {
 fun TextView.scoreNumberTeam2(score: Score) {
     text = score.team2.toString()
 }
-
-@BindingAdapter("dealersTwoTeams")
-fun bindDealersTwoTeams(recyclerView: RecyclerView, data: List<Player>) {
-    val adapter = recyclerView.adapter as DealersTwoTeamsAdapter
+/*
+@BindingAdapter("playersFromTeam")
+fun bindPlayersFromTeam(recyclerView: RecyclerView, data: List<Player>) {
+    val adapter = recyclerView.adapter as PlayerTeamAdapter
     adapter.submitList(data)
 }
+ */

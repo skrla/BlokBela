@@ -8,6 +8,7 @@ import skrla.bela.blokbela.data.model.Player
 import skrla.bela.blokbela.data.model.Round
 import skrla.bela.blokbela.data.model.Score
 import skrla.bela.blokbela.data.model.Team
+import skrla.bela.blokbela.data.model.relations.TeamWithPlayer
 
 interface GameRepository {
 
@@ -16,6 +17,8 @@ interface GameRepository {
     fun getCurrentRound(): LiveData<Round>
 
     fun getPlayers(): Flow<List<Player>>
+
+    fun getTeamWithPlayers(): Flow<List<TeamWithPlayer>>
 
     suspend fun insertScore(score: Score)
 

@@ -2,14 +2,15 @@ package skrla.bela.blokbela.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import skrla.bela.blokbela.data.model.Player
 import skrla.bela.blokbela.data.model.Round
 import skrla.bela.blokbela.data.model.Score
 import skrla.bela.blokbela.data.model.Team
+import skrla.bela.blokbela.data.model.relations.TeamWithPlayer
 
 @Dao
 interface GameDao {
@@ -22,6 +23,10 @@ interface GameDao {
 
     @Query("SELECT * FROM player")
     fun getPlayers(): Flow<List<Player>>
+
+    @Transaction
+    @Query("SELECT * FROM team")
+    fun getTeamWithPlayer(): Flow<List<TeamWithPlayer>>
 
     @Insert
     suspend fun insertScore(score: Score)
