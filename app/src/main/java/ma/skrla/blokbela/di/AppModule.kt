@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ma.skrla.blokbela.data.local.BelaDao
 import ma.skrla.blokbela.data.local.BelaDatabase
+import ma.skrla.blokbela.repository.BelaRepository
 import javax.inject.Singleton
 
 @Module
@@ -29,5 +30,10 @@ object AppModule {
     @Singleton
     fun provideDao(belaDatabase: BelaDatabase) : BelaDao {
         return belaDatabase.belaDao
+    }
+
+    @Provides
+    fun provideBelaRepository(belaDao: BelaDao): BelaRepository {
+        return BelaRepository(belaDao)
     }
 }

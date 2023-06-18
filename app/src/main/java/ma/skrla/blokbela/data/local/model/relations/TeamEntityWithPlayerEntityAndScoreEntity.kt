@@ -17,5 +17,5 @@ data class TeamEntityWithPlayerEntityAndScoreEntity(
         parentColumn = "id",
         entityColumn = "teamId"
     )
-    val score: List<ScoreEntity>
+    val score: List<ScoreEntity> = listOf()
 )
