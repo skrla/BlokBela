@@ -15,10 +15,12 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ma.skrla.blokbela.data.local.model.PlayerEntity
 import ma.skrla.blokbela.data.local.model.TeamEntity
+import ma.skrla.blokbela.data.mapper.toPlayer
 import ma.skrla.blokbela.data.mapper.toScore
 import ma.skrla.blokbela.data.mapper.toScoreEntity
 import ma.skrla.blokbela.data.mapper.toTeam
 import ma.skrla.blokbela.data.mapper.toTeamEntity
+import ma.skrla.blokbela.domain.Player
 import ma.skrla.blokbela.domain.Score
 import ma.skrla.blokbela.domain.Team
 import ma.skrla.blokbela.repository.BelaRepository
@@ -38,12 +40,26 @@ class TwoTeamsViewModel @Inject constructor(private val repository: BelaReposito
 
     val twoTeamsData : StateFlow<List<Team>> = _twoTeamsData.asStateFlow()
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val teams = repository.getTeamWithPlayerAndScore().mapLatest { teams ->
+        teams.map { it.toTeam(it.team.id == 1) }
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+
+
+    private val _playersData = MutableStateFlow<List<Player>>(
+        emptyList()
+    )
+    val playersData : StateFlow<List<Player>> = _playersData.asStateFlow()
 
     init {
         viewModelScope.launch {
             repository.getTeamWithPlayerAndScore().collectLatest {it ->
                 _twoTeamsData.value = it.map { it.toTeam(it.team.id == 1) }
-                println("Flow is active")
+            }
+        }
+        viewModelScope.launch {
+            repository.getPlayers().collectLatest { it ->
+                _playersData.value = it.map { it.toPlayer() }
             }
         }
     }

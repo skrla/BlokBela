@@ -19,6 +19,10 @@ class BelaRepository(private val belaDao: BelaDao) {
         return belaDao.getTeamWithPlayerAndScore()
     }
 
+    fun getPlayers(): Flow<List<PlayerEntity>> {
+        return belaDao.getPlayers()
+    }
+
     fun getScore(): Flow<List<ScoreEntity>> {
         return belaDao.getScore()
     }

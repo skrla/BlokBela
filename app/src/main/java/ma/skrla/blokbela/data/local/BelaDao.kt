@@ -25,6 +25,10 @@ interface BelaDao {
     fun getPlayerWithScore() : Flow<List<PlayerEntityWithScoreEntity>>
 
     @Transaction
+    @Query("SELECT * FROM player")
+    fun getPlayers(): Flow<List<PlayerEntity>>
+
+    @Transaction
     @Query("SELECT * FROM score")
     fun getScore(): Flow<List<ScoreEntity>>
 

@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -30,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import ma.skrla.blokbela.domain.Score
 import ma.skrla.blokbela.domain.Team
 import ma.skrla.blokbela.presentation.twoteams.viewModel.TwoTeamsViewModel
 
@@ -39,128 +39,115 @@ fun TwoTeamsGame(
     modifier: Modifier,
     viewModel: TwoTeamsViewModel = hiltViewModel()
 ) {
-    val twoTeamsData by viewModel.twoTeamsData.collectAsStateWithLifecycle()
-    if (twoTeamsData.isNullOrEmpty()) {
-        viewModel.addTeams()
-    }
+
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = modifier.fillMaxSize()
     ) {
-        if (twoTeamsData.isNotEmpty()) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Spacer(modifier = Modifier.height(20.dp))
-                GameData(teams = twoTeamsData, viewModel = viewModel)
-            }
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(20.dp))
+            GameData(viewModel = viewModel)
+
         }
     }
 }
 
 @Composable
 fun GameData(
-    teams: List<Team>,
     viewModel: TwoTeamsViewModel
 ) {
-    val we = teams[0]
-    val you = teams[1]
+    val twoTeamsData = viewModel.teams.collectAsStateWithLifecycle()
+    if (twoTeamsData.value.isNullOrEmpty()) {
+        viewModel.addTeams()
+    }
+    if (!twoTeamsData.value.isNullOrEmpty()) {
+        val (we, setWe) = remember {
+            mutableStateOf(twoTeamsData.value[0])
+        }
+        val (you, setYou) = remember {
+            mutableStateOf(twoTeamsData.value[1])
 
-    var weTrump by remember {
-        mutableStateOf(teams[0].trump)
-    }
-    var youTrump by remember {
-        mutableStateOf(teams[1].trump)
-    }
-    var weBela by remember {
-        mutableStateOf(teams[0].bela)
-    }
-    var youBela by remember {
-        mutableStateOf(teams[1].bela)
-    }
-    var weCall by remember {
-        mutableStateOf(teams[0].call)
-    }
-    var youCall by remember {
-        mutableStateOf(teams[1].call)
-    }
-    var weScore by remember {
-        mutableStateOf(0)
-    }
-    var youScore by remember {
-        mutableStateOf(0)
-    }
+        }
 
-    Row(modifier = Modifier.fillMaxWidth()) {
-        TeamName(teams = teams, modifier = Modifier.weight(1f))
-    }
-    Row(modifier = Modifier.fillMaxWidth()) {
-        TrumpCaller(
-            we = weTrump,
-            you = youTrump,
-            modifier = Modifier.weight(1f),
-            onTrumpChange = {
-                weTrump = !weTrump
-                we.trump = weTrump
-                youTrump = !youTrump
-                you.trump = youTrump
-            }
-        )
-    }
-    Row(modifier = Modifier.fillMaxWidth()) {
-        BelaCaller(
-            we = weBela,
-            you = youBela,
-            modifier = Modifier.weight(1f),
-            onBelaChange = { weBelaS, youBelaS ->
-                weBela = weBelaS
-                we.bela = weBela
-                youBela = youBelaS
-                you.bela = youBela
-            }
-        )
-    }
-    Row(modifier = Modifier.fillMaxWidth()) {
-        CallInput(
-            we = weCall,
-            you = youCall,
-            modifier = Modifier.weight(1f),
-            onCallChange = { weCallI, youCallI ->
-                weCall = weCallI
-                we.call = weCall
-                youCall = youCallI
-                you.call = youCall
-            }
-        )
-    }
+        Row(modifier = Modifier.fillMaxWidth()) {
+            TeamName(teams = twoTeamsData.value, modifier = Modifier.weight(1f))
+        }
+        Row(modifier = Modifier.fillMaxWidth()) {
+            TrumpCaller(
+                we = we.trump,
+                you = you.trump,
+                modifier = Modifier.weight(1f),
+                onTrumpChange = {
+                    val newWe = we.copy()
+                    val newYou = you.copy()
+                    newWe.trump = !newWe.trump
+                    setWe(newWe)
+                    newYou.trump = !newYou.trump
+                    setYou(newYou)
+                }
+            )
+        }
 
-    Row(modifier = Modifier.fillMaxWidth()) {
-        ScoreInput(
-            we = weScore,
-            you = youScore,
-            modifier = Modifier.weight(1f),
-            onScoreChange = { weScoreT, youScoreT ->
-                weScore = weScoreT
-                youScore = youScoreT
-            }
-        )
-    }
-    Spacer(modifier = Modifier.height(30.dp))
-    Button(onClick = {
-        viewModel.insertScore(we, you, weScore, youScore)
-        weScore = 0
-        youScore = 0
-        youTrump = !youTrump
-        youBela = false
-        youCall = 0
-        weTrump = !weTrump
-        weBela = false
-        weCall = 0
-    }) {
-        Text(text = "Spremi")
-    }
+        Row(modifier = Modifier.fillMaxWidth()) {
+            BelaCaller(
+                we = we.bela,
+                you = you.bela,
+                modifier = Modifier.weight(1f),
+                onBelaChange = { weBelaS, youBelaS ->
+                    val newWe = we.copy()
+                    val newYou = you.copy()
+                    newWe.bela = weBelaS
+                    setWe(newWe)
+                    newYou.bela = youBelaS
+                    setYou(newYou)
+                }
+            )
+        }
 
+        Row(modifier = Modifier.fillMaxWidth()) {
+            CallInput(
+                we = we.call,
+                you = you.call,
+                modifier = Modifier.weight(1f),
+                onCallChange = { weCallI, youCallI ->
+                    val newWe = we.copy()
+                    val newYou = you.copy()
+                    newWe.call = weCallI
+                    setWe(newWe)
+                    newYou.call = youCallI
+                    setYou(newYou)
+                }
+            )
+        }
+
+        Row(modifier = Modifier.fillMaxWidth()) {
+            ScoreInput(
+                we = we.score.last().points,
+                you = you.score.last().points,
+                modifier = Modifier.weight(1f),
+                onScoreChange = { weScoreT, youScoreT ->
+                    val newWe = we.copy()
+                    val newYou = you.copy()
+                    newWe.score.last().points = weScoreT
+                    setWe(newWe)
+                    you.score.last().points = youScoreT
+                    setYou(newYou)
+                }
+            )
+        }
+
+
+        Spacer(modifier = Modifier.height(30.dp))
+        Button(onClick = {
+//            viewModel.updateScore(we.score.last(), you.score.last())
+
+        }) {
+            Text(text = "Spremi")
+        }
+    }
 
 }
 
@@ -250,7 +237,7 @@ fun CallInput(
                 if (value.isNotEmpty()) {
                     onCallChange(value.filter { it.isDigit() }.toInt(), 0)
                 }
-                if(value.isEmpty()) {
+                if (value.isEmpty()) {
                     onCallChange(0, 0)
                 }
             },
@@ -306,7 +293,7 @@ fun ScoreInput(
                     if (weScore > 162) {
                         weScore = 162
                     }
-                    onScoreChange(weScore,  162 - weScore)
+                    onScoreChange(weScore, 162 - weScore)
                 }
                 if (value.isEmpty()) {
                     onScoreChange(0, 162)
@@ -334,9 +321,9 @@ fun ScoreInput(
                     if (youScore > 162) {
                         youScore = 162
                     }
-                    onScoreChange(162-youScore, youScore)
+                    onScoreChange(162 - youScore, youScore)
                 }
-                if(value.isEmpty()){
+                if (value.isEmpty()) {
                     onScoreChange(162, 0)
                 }
             },
